@@ -1,0 +1,26 @@
+query fetchQuestions($offset: Int, $where: SequelizeJSON) {
+  users(limit: 1, where: $where) {
+    questionSetFollows {
+      edges {
+        node {
+          questionSet {
+            questions(limit: 20, offset: $offset) {
+              edges {
+                node {
+                  questionId
+                  questionSetId
+                  questionTitle
+                  questionContent
+                  questionMediaUrl
+                  questionType
+                  questionCreateTimestamp
+                  questionLastUpdateTimestamp
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
