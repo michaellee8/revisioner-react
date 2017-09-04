@@ -1,10 +1,10 @@
-query fetchQuestions($offset: Int, $where: SequelizeJSON) {
+query fetchQuestions($offsetId: String, $where: SequelizeJSON) {
   users(limit: 1, where: $where) {
     questionSetFollows {
       edges {
         node {
           questionSet {
-            questions(limit: 20, offset: $offset) {
+            questions(first: 5, after: $offsetId) {
               edges {
                 node {
                   questionId
@@ -15,9 +15,65 @@ query fetchQuestions($offset: Int, $where: SequelizeJSON) {
                   questionType
                   questionCreateTimestamp
                   questionLastUpdateTimestamp
+                  questionAnswers {
+                    edges {
+                      node {
+                        questionAnswerId
+                        questionId
+                        questionAnswerMediaUrl
+                        questionAnswerText
+                        questionAnswerIsCorrect
+                        questionSumbits {
+                          total
+                        }
+                      }
+                    }
+                  }
+                  questionComments {
+                    total
+                    edges {
+                      node {
+                        questionCommentId
+                        questionId
+                        userId
+                        questionCommentContent
+                        questionCommentCreateTimestamp
+                        questionCommentLastUpdateTimestamp
+                        user {
+                          userId
+                          userName
+                          userPhotoUrl
+                          userIntro
+                        }
+                      }
+                    }
+                  }
+                  questionReactions {
+                    edges {
+                      node {
+                        questionReactionId
+                        questionReactionType
+                        user {
+                          userId
+                          userName
+                          userPhotoUrl
+                          userIntro
+                        }
+                      }
+                    }
+                  }
+                  questionTags {
+                    edges {
+                      node {
+                        questionTagId
+                        questionTagContent
+                      }
+                    }
+                  }
                 }
               }
             }
+            cursor
           }
         }
       }
